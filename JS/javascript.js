@@ -4,17 +4,19 @@ var dificultad = {};
 var dificultadElegida = "";
 var nombre = "";
 var imagenesTarjetas = {};
+var intentos;
+var nombrerecogido; 
 
 /* Inicio del script */
 $(document).ready(function () {
     rellenarArrays();
-    $('#submit').prop('disabled', true);
     $('#panelDeJuego').hide();
-    $("#camponombre").change(function () {
-        if ($('#camponombre').length === 0) {
-            $('#submit').prop('disabled', true);
-        } else {
-            $('#submit').prop('disabled', false);
+    $('#menuTerminarJuego').hide();
+    $('#submit').click(function () {
+        nombrerecogido = $('#camponombre').val();
+        var nombreparseado = $.trim(nombrerecogido);
+        if (nombreparseado!= null && nombreparseado != '') {
+            empezarJuego();
         }
     });
 
@@ -58,6 +60,7 @@ function empezarJuego() {
     $('#panelprincipal').hide();
     nombre = $('#camponombre').val();
     dificultadElegida = $('input[name=dificultad]:checked').val();
+    intentos = comprobarDificultad(dificultadElegida);
     $('#panelDeJuego').show();
     $('#info').text("Nombre: " + nombre + " Dificultad:" + dificultadElegida + " Puntuacion:" + puntuacion);
 
@@ -72,7 +75,9 @@ function funcionamientoDelJuego() {
     var j = 0;
 
     for (var i = 0; i < numerodeTarjetas; i++) {
-        if (j > 3) {j=0}
+        if (j > 3) {
+            j = 0
+        }
         shuffle(profesiones);
         var profesionGenerada = profesiones[j];
         var rutaImagen = devolverPropiedadArray(profesionGenerada);
@@ -94,6 +99,7 @@ function controlarPuntuacion() {
         drop: function (event, ui) {
             puntuacion++;
             $('#info').text("Nombre: " + nombre + " Dificultad:" + dificultadElegida + " Puntuacion:" + puntuacion);
+            comprobarTerminaJuego();
             ui.draggable('disable');
         }
     });
@@ -103,6 +109,7 @@ function controlarPuntuacion() {
         drop: function (event, ui) {
             puntuacion++;
             $('#info').text("Nombre: " + nombre + " Dificultad:" + dificultadElegida + " Puntuacion:" + puntuacion);
+            comprobarTerminaJuego();
             ui.draggable('disable');
         }
     });
@@ -112,6 +119,7 @@ function controlarPuntuacion() {
         drop: function (event, ui) {
             puntuacion++;
             $('#info').text("Nombre: " + nombre + " Dificultad:" + dificultadElegida + " Puntuacion:" + puntuacion);
+            comprobarTerminaJuego();
             ui.draggable('disable');
         }
     });
@@ -121,6 +129,7 @@ function controlarPuntuacion() {
         drop: function (event, ui) {
             puntuacion++;
             $('#info').text("Nombre: " + nombre + " Dificultad:" + dificultadElegida + " Puntuacion:" + puntuacion);
+            comprobarTerminaJuego();
             ui.draggable('disable');
         }
     });
@@ -167,7 +176,40 @@ function terminarJuego() {
     nombre = $('#camponombre').val();
     dificultad = $('input[name=dificultad]:checked').val();
     puntuacion = 0;
+    $('#menuTerminarJuego').hide();
     $('#panelDeJuego').hide();
+}
+
+/* Boton reiniciar */
+function reiniciarJuego() {
+    $('menuTerminarJuego').hide();
+    puntuacion = 0;
+    funcionamientoDelJuego();
+
+}
+
+/* Comprobar que termina */
+function comprobarTerminaJuego() {
+    //var numerodetarjetas = comprobarDificultad(dificultadElegida);
+    var mensajeDeJuego = nombre + ' tiene ' + puntuacion + ' puntos en la dificultad ' + dificultadElegida;
+    var info = $('span');
+    info.append(mensajeDeJuego);
+    switch (puntuacion) {
+        case 4:
+            $('#menuTerminarJuego').show();
+            $('#menuTerminarJuego').append(info);
+
+            break;
+        case 7:
+            $('#menuTerminarJuego').show();
+            $('#menuTerminarJuego').append(info);
+            break;
+        case 9:
+            $('#menuTerminarJuego').show();
+            $('#menuTerminarJuego').append(info);
+            break;
+    }
+
 }
 
 /**

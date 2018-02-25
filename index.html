@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="CSS/estilo.css">
     <link rel="stylesheet" href="CSS/formulario.css">
-    <link rel="stylesheet" href="/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="JS/jquerytouchpunch.js"></script>
@@ -20,17 +20,16 @@
             <label id="bienvenido">Bienvenido</label><br><br>
             <label>Nombre </label><input id="camponombre" name="nombre" required></input><br><br>
             <label>Elige dificultad</label><br><br>
-            <input id="radio" type="radio" name="dificultad" value="facil" required checked> Facil<br>
+            <input id="radio" type="radio" name="dificultad" value="facil" required> Facil<br>
             <input id="radio" type="radio" name="dificultad" value="medio"> Medio<br>
             <input id="radio" type="radio" name="dificultad" value="dificil"> Dificil <br><br>
-            <button id="submit" type="submit" onclick="empezarJuego()">Empezar</button><br>
+            <button id="submit" type="submit">Empezar</button><br>
         </form>
     </div>
 
     <div id="panelDeJuego">
         <div id="panelmenu">
             <label id="info"></label>
-            <a href="" onclick="terminarJuego()" class="myButton">Terminar juego</a>
         </div>
 
         <div id="profesiones">
@@ -53,6 +52,14 @@
         </div>
 
         <div id="tarjetas"></div>
+
+        <div id="menuTerminarJuego" class="modal">
+            <div class="modal-contenido">
+                <h2>Juego Terminado</h2>
+                <a href="" onclick="terminarJuego()" class="myButton">Terminar juego</a>
+                <a href="" onclick="reiniciarJuego()" class="myButton">Reiniciar</a>
+            </div>
+        </div>
 
 
 
