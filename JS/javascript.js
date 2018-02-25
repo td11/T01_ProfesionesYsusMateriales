@@ -4,23 +4,38 @@ var dificultad = {};
 var dificultadElegida = "";
 var nombre = "";
 var imagenesTarjetas = {};
-var intentos;
-var nombrerecogido; 
+var intentos, nombrerecogido, comprobarReinicio = false;
 
 /* Inicio del script */
-$(document).ready(function () {
+$(function () {
+    if (comprobarReinicio == false) {
+        prepararComienzo();
+    } else {
+        $('#panelprincipal').hide();
+    }
+
+    $('#botonTerminar').click(function (event) {
+        terminarJuego();
+    });
+
+    $('#botonReinicio').click(function (event) {
+        reiniciarJuego();
+    });
+
+});
+
+function prepararComienzo() {
     rellenarArrays();
     $('#panelDeJuego').hide();
     $('#menuTerminarJuego').hide();
     $('#submit').click(function () {
         nombrerecogido = $('#camponombre').val();
         var nombreparseado = $.trim(nombrerecogido);
-        if (nombreparseado!= null && nombreparseado != '') {
+        if (nombreparseado != null && nombreparseado != '') {
             empezarJuego();
         }
     });
-
-});
+}
 
 
 /* Inicializar array de imagenes */
@@ -172,19 +187,24 @@ function devolverPropiedadArray(profesionGenerada) {
 
 /* Boton terminar */
 function terminarJuego() {
-    $('#panelprincipal').show();
+    /*$('#panelprincipal').show();
     nombre = $('#camponombre').val();
     dificultad = $('input[name=dificultad]:checked').val();
     puntuacion = 0;
+    comprobarReinicio = false;
     $('#menuTerminarJuego').hide();
-    $('#panelDeJuego').hide();
+    $('#panelDeJuego').hide();*/
+
+    location.reload();
 }
 
 /* Boton reiniciar */
 function reiniciarJuego() {
-    $('menuTerminarJuego').hide();
+    $('#menuTerminarJuego').hide();
     puntuacion = 0;
-    funcionamientoDelJuego();
+    $('#tarjetas').children().remove();
+    comprobarReinicio = true;
+    empezarJuego();
 
 }
 
@@ -194,19 +214,21 @@ function comprobarTerminaJuego() {
     var mensajeDeJuego = nombre + ' tiene ' + puntuacion + ' puntos en la dificultad ' + dificultadElegida;
     var info = $('span');
     info.append(mensajeDeJuego);
-    switch (puntuacion) {
-        case 4:
-            $('#menuTerminarJuego').show();
-            $('#menuTerminarJuego').append(info);
-
-            break;
-        case 7:
-            $('#menuTerminarJuego').show();
+    switch (dificultadElegida) {
+        case 'facil':
+            if (puntuacion == 4)
+                $('#menuTerminarJuego').show();
             $('#menuTerminarJuego').append(info);
             break;
-        case 9:
-            $('#menuTerminarJuego').show();
-            $('#menuTerminarJuego').append(info);
+        case 'medio':
+            if (puntuacion == 7)
+                $('#menuTerminarJuego').show();
+                $('#menuTerminarJuego').append(info);
+            break;
+        case 'dificil':
+            if (puntuacion == 9)
+                $('#menuTerminarJuego').show();
+                $('#menuTerminarJuego').append(info);
             break;
     }
 
